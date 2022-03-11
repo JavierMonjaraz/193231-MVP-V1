@@ -14,7 +14,10 @@ class LoginApp extends StatelessWidget {
           children: [
             Container(
               height: 150,
-              decoration: BoxDecoration(border: Border.all(color: Colors.blue)),
+              // decoration: BoxDecoration(
+              //   border: Border.all(color: Colors.blue),
+              // ),
+              child: Image.asset('assets/image/login.png'),
             ),
             const SizedBox(
               height: 120,
