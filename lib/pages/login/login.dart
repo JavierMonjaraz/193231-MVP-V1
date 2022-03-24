@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:mvp_all/styles/colors/colors_views.dart';
 
 class LoginApp extends StatelessWidget {
   const LoginApp({Key? key}) : super(key: key);
@@ -7,10 +8,15 @@ class LoginApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(24.0, 50.0, 24.0, 0.0),
-        child: ListView(
+        body: Padding(
+          padding: const EdgeInsets.all(0.0),
+      child: Container(
+        // padding: EdgeInsets.symmetric(horizontal: size.width * 0.07),
+        padding: EdgeInsets.fromLTRB(size.width * 0.07,size.height*0.09,size.width * 0.07,0.0),
+        color: ColorsViews.background,
+        child: Column(
           children: [
             Container(
               height: 150,
@@ -19,8 +25,8 @@ class LoginApp extends StatelessWidget {
               // ),
               child: Image.asset('assets/image/login.png'),
             ),
-            const SizedBox(
-              height: 120,
+            SizedBox(
+              height: (size.height*0.08),
             ),
             Container(
                 height: 48,
@@ -32,7 +38,7 @@ class LoginApp extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       SizedBox(
-                        width: 85,
+                        width: 70,
                       ),
                       Icon(
                         FontAwesomeIcons.google,
@@ -46,8 +52,8 @@ class LoginApp extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                       )
                     ])),
-            const SizedBox(
-              height: 30,
+            SizedBox(
+              height: size.height * 0.03,
             ),
             Container(
                 height: 48,
@@ -60,7 +66,7 @@ class LoginApp extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       SizedBox(
-                        width: 85,
+                        width: 70,
                       ),
                       Icon(
                         Icons.facebook,
@@ -74,8 +80,8 @@ class LoginApp extends StatelessWidget {
                         style: TextStyle(color: Colors.white),
                       )
                     ])),
-            const SizedBox(
-              height: 45,
+            SizedBox(
+              height: size.height * 0.05,
             ),
             Container(
                 height: 48,
@@ -89,7 +95,7 @@ class LoginApp extends StatelessWidget {
                     // mainAxisAlignment: MainAxisAlignment.center,
                     children: const [
                       SizedBox(
-                        width: 85,
+                        width: 70,
                       ),
                       Icon(Icons.mail, color: Color(0xFF646864)),
                       SizedBox(
@@ -100,8 +106,8 @@ class LoginApp extends StatelessWidget {
                         style: TextStyle(color: Color(0xFF646864)),
                       )
                     ])),
-            const SizedBox(
-              height: 68,
+            SizedBox(
+              height: size.height * 0.07,
             ),
             Column(
               children: [
@@ -121,8 +127,8 @@ class LoginApp extends StatelessWidget {
                     )),
               ],
             ),
-            const SizedBox(
-              height: 65,
+             SizedBox(
+              height: size.height * 0.07,
             ),
             Container(
               alignment: Alignment.center,
@@ -140,6 +146,6 @@ class LoginApp extends StatelessWidget {
           ],
         ),
       ),
-    );
+    ));
   }
 }

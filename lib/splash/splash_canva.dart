@@ -34,10 +34,10 @@ class SplashCanvas extends CustomPainter {
 
     canvas.drawPath(path_2, paint);
 
-    canvas.scale(0.272, 0.272);
+    canvas.scale(0.28, 0.28);
     // print(imageCanvas!.height);
 
-    canvas.drawImage(imageCanvas!, const Offset(180 * 2.5, 420 * 2.5), paint);
+    canvas.drawImage(imageCanvas!, const Offset(120 * 2.5, 320 * 2.5), paint);
   }
 
   @override

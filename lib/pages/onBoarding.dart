@@ -82,14 +82,14 @@ class _OnBoardingState extends State<OnBoarding> {
                               (index) => _animatedContainer(index: index)),
                         ),
                         Container(
-                          margin: const EdgeInsets.only(top: 150),
+                          margin: const EdgeInsets.only(top: 120),
                           child: SizedBox(
                             width: 300,
                             height: 50,
                             child: ElevatedButton(
                               onPressed: () {
                                 if (page == boardingData.length - 1) {
-                                  Navigator.pushNamed(context, 'login');
+                                  Navigator.pushReplacementNamed(context, 'login');
                                 }
                               },
                               child: Text(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mvp_all/pages/login/login.dart';
+import 'package:mvp_all/pages/progress/progress_canva.dart';
+import 'package:mvp_all/pages/progress/progress_view.dart';
 import 'package:mvp_all/splash/splas_view.dart';
 
 void main() {
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
       routes: {
         'splash': (BuildContext context) => const SplashView(),
         'login': (BuildContext context) => const LoginApp(),
+        'progress_custom': (BuildContext context) => const ProgressView(),
       },
     );
   }
