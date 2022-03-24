@@ -42,6 +42,7 @@ class _OnBoardingState extends State<OnBoarding> {
   ];
 
   int page = 0;
+  final PageController _pageController = PageController();
 
   @override
   Widget build(BuildContext context) {
@@ -57,10 +58,13 @@ class _OnBoardingState extends State<OnBoarding> {
                 Expanded(
                   flex: 2,
                   child: PageView.builder(
+                    controller: _pageController,
                     onPageChanged: (value) {
-                      setState(() {
-                        page = value;
-                      });
+                      setState(
+                        () {
+                          page = value;
+                        },
+                      );
                     },
                     itemCount: boardingData.length,
                     itemBuilder: (context, index) => ContainerBoarding(
@@ -89,7 +93,15 @@ class _OnBoardingState extends State<OnBoarding> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (page == boardingData.length - 1) {
-                                  Navigator.pushReplacementNamed(context, 'home');
+                                  Navigator.pushReplacementNamed(
+                                      context, 'home');
+                                }else{
+                                  page += 1;
+                                  _pageController.animateToPage(
+                                      page,
+                                      duration: const Duration(milliseconds: 400),
+                                      curve: Curves.easeInSine
+                                  );
                                 }
                               },
                               child: Text(
@@ -101,12 +113,13 @@ class _OnBoardingState extends State<OnBoarding> {
                               ),
                               style: ElevatedButton.styleFrom(
                                   shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                      side: BorderSide(
-                                        color: page == boardingData.length - 1
-                                            ? Colors.transparent
-                                            : ColorsViews.text_body,
-                                      )),
+                                    borderRadius: BorderRadius.circular(30),
+                                    side: BorderSide(
+                                      color: page == boardingData.length - 1
+                                          ? Colors.transparent
+                                          : ColorsViews.text_body,
+                                    ),
+                                  ),
                                   elevation: 1,
                                   primary: page == boardingData.length - 1
                                       ? ColorsViews.btn_continuar
