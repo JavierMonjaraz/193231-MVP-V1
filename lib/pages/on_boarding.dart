@@ -89,7 +89,7 @@ class _OnBoardingState extends State<OnBoarding> {
                             child: ElevatedButton(
                               onPressed: () {
                                 if (page == boardingData.length - 1) {
-                                  Navigator.pushReplacementNamed(context, 'login');
+                                  Navigator.pushReplacementNamed(context, 'home');
                                 }
                               },
                               child: Text(

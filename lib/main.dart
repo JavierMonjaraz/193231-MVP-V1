@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:mvp_all/pages/login/login.dart';
+import 'package:mvp_all/pages/login/home_page.dart';
+import 'package:mvp_all/pages/login/login_page.dart';
 import 'package:mvp_all/pages/progress/progress_canva.dart';
 import 'package:mvp_all/pages/progress/progress_view.dart';
+import 'package:mvp_all/pages/recover_password.dart';
+import 'package:mvp_all/pages/register_page.dart';
 import 'package:mvp_all/splash/splas_view.dart';
 
 void main() {
@@ -23,7 +26,10 @@ class MyApp extends StatelessWidget {
       initialRoute: 'splash',
       routes: {
         'splash': (BuildContext context) => const SplashView(),
-        'login': (BuildContext context) => const LoginApp(),
+        'home': (BuildContext context) => const HomePage(),
+        'login': (BuildContext context) => const LoginPage(),
+        'registro': (BuildContext context) => const RegistrerPage(),
+        'recover_password': (BuildContext context) => const RecoverPassword(),
         'progress_custom': (BuildContext context) => const ProgressView(),
       },
     );

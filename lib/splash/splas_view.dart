@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mvp_all/splash/splash_canva.dart';
 import 'dart:ui' as ui;
 // Importaciones clase Vistas
-import '../pages/onBoarding.dart';
+import '../pages/on_boarding.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({Key? key}) : super(key: key);
