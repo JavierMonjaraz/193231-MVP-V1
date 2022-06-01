@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mvp_all/Home/principal_page.dart';
 import 'package:mvp_all/pages/login/home_page.dart';
 import 'package:mvp_all/pages/login/login_page.dart';
 import 'package:mvp_all/pages/progress/progress_canva.dart';
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
         'registro': (BuildContext context) => const RegistrerPage(),
         'recover_password': (BuildContext context) => const RecoverPassword(),
         'progress_custom': (BuildContext context) => const ProgressView(),
+        'principal_page': (BuildContext context) => const PrincipalPage(),
       },
     );
   }
