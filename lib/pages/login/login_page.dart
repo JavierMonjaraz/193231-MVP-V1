@@ -1,12 +1,32 @@
-import 'package:flutter/material.dart';
-import 'package:mvp_all/styles/colors/colors_views.dart';
+import 'dart:convert';
 
-class LoginPage extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:mvp_all/styles/colors/colors_views.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mvp_all/Conection/server.dart';
+
+class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
+
+  @override
+  State<LoginPage> createState() => _LoginPage();
+}
+
+class _LoginPage extends State<LoginPage>{
+
+  final email = TextEditingController();
+  final password = TextEditingController();
+  bool _passwordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    var outlineInputBorder = OutlineInputBorder(
+      borderSide: const BorderSide(color: ColorsViews.bar_disabled),
+      borderRadius: BorderRadius.circular(15),
+    );
 
     return Scaffold(
         appBar: AppBar(
@@ -45,15 +65,62 @@ class LoginPage extends StatelessWidget {
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          const TextFormFieldCustom(
-                            label: 'Correo Electrónico',
-                            hintText: 'Email Address',
-                            helpTextEnabled: false,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Correo Electrónico",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              TextField(
+                                controller: email,
+                                decoration: InputDecoration(
+                                    hintText: "Email Address",
+                                    focusedBorder: outlineInputBorder,
+                                    enabledBorder: outlineInputBorder),
+                              )
+                            ],
                           ),
                           SizedBox(height: size.height * 0.03),
-                          const TextFormFieldPasswordScreen(
-                            helpTextEnabled: false,
-                            showHelpPassword: true,
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text(
+                                "Contraseña",
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              TextField(
+                                controller: password,
+                                obscureText: !_passwordVisible,
+                                decoration: InputDecoration(
+                                  hintText: "Password",
+                                  focusedBorder: outlineInputBorder,
+                                  enabledBorder: outlineInputBorder,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.visibility,
+                                      color: _passwordVisible
+                                          ? Colors.blue
+                                          : Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      _passwordVisible = !_passwordVisible;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ],
                       ),
@@ -66,7 +133,53 @@ class LoginPage extends StatelessWidget {
                 ),
                 Expanded(
                   flex: 1,
-                  child: CustomButtonApp(size: size, textButton: 'Ingresar'),
+                  child: SizedBox(
+                    width: size.width * 0.9,
+                    height: size.height * 0.5,
+                    child: ElevatedButton(
+                      child: const Text(
+                        "Ingresar",
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                          primary: ColorsViews.btn_continuar,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                          )),
+                      onPressed: () async {
+                        if(!(email.text == "") && !(password.text == "")){
+                          Response response = await post(
+                              Uri.parse(connect.url+'api/v1/login'),
+                              body: {
+                                'email': email.text,
+                                'password': password.text
+                              });
+                          Map data = jsonDecode(response.body);
+                          if(data['Token']==null){
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content:
+                                Text('Correo Electónico y/o Password incorrectos'),
+                              ),
+                            );
+                          }else{
+                            SharedPreferences.setMockInitialValues({});
+                            SharedPreferences prefs = await SharedPreferences.getInstance();
+                            prefs.setString('token', data['Token']);
+                            prefs.setString('name', data['Name']);
+                            Navigator.pushNamedAndRemoveUntil(context, 'principal_page',(Route<dynamic> route) => false);
+                          }
+                        }else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content:
+                              Text('No ha llenado todos los campos'),
+                            ),
+                          );
+                        }
+                      },
+                    ),
+                  ),
                 ),
                 const Expanded(
                   flex: 1,
@@ -79,149 +192,6 @@ class LoginPage extends StatelessWidget {
             ),
           ),
         ));
-  }
-}
-
-class TextFormFieldCustom extends StatelessWidget {
-  final String label;
-  final String hintText;
-  final IconData? iconData;
-  final bool helpTextEnabled;
-
-  const TextFormFieldCustom(
-      {Key? key,
-      required this.label,
-      required this.hintText,
-      required this.helpTextEnabled,
-      this.iconData})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    String labelHelpText =
-        'Ingrese su correo eléctronico registrado y le enviaremos un correo electrónico que contiene un enlace para restablecer su contraseña.';
-
-    var outlineInputBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: ColorsViews.bar_disabled),
-      borderRadius: BorderRadius.circular(15),
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          label,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        TextFormField(
-          decoration: InputDecoration(
-              suffixIcon: iconData != null ? Icon(iconData) : null,
-              hintText: hintText,
-              focusedBorder: outlineInputBorder,
-              enabledBorder: outlineInputBorder,
-              helperText: helpTextEnabled ? labelHelpText : null,
-              helperMaxLines: 4,
-              helperStyle: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-              )),
-        )
-      ],
-    );
-  }
-}
-
-class TextFormFieldPasswordScreen extends StatefulWidget {
-  final bool helpTextEnabled;
-  final bool showHelpPassword;
-
-  const TextFormFieldPasswordScreen(
-      {Key? key, required this.helpTextEnabled, required this.showHelpPassword})
-      : super(key: key);
-
-  @override
-  State<TextFormFieldPasswordScreen> createState() =>
-      _TextFormFieldPasswordScreenState();
-}
-
-class _TextFormFieldPasswordScreenState
-    extends State<TextFormFieldPasswordScreen> {
-  late bool _passwordVisible;
-  final TextEditingController _userPasswordController = TextEditingController();
-
-  @override
-  void initState() {
-    _passwordVisible = false;
-    super.initState();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-
-    var outlineInputBorder = OutlineInputBorder(
-      borderSide: const BorderSide(color: ColorsViews.bar_disabled),
-      borderRadius: BorderRadius.circular(15),
-    );
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      // mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        const Text(
-          'Contraseña',
-          textAlign: TextAlign.end,
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        TextFormField(
-          controller: _userPasswordController,
-          obscureText: !_passwordVisible,
-          decoration: InputDecoration(
-              suffixIcon: IconButton(
-                icon: Icon(
-                  Icons.visibility,
-                  color: _passwordVisible ? Colors.blue : ColorsViews.text_body,
-                ),
-                onPressed: () {
-                  _passwordVisible = !_passwordVisible;
-                  setState(() {});
-                },
-              ),
-              hintText: 'Password',
-              focusedBorder: outlineInputBorder,
-              enabledBorder: outlineInputBorder,
-              helperText: widget.helpTextEnabled
-                  ? 'La contraseña debe contener caracteres, números y simbolos con un minimo de 6 caracteres.'
-                  : null,
-              helperMaxLines: 2,
-              helperStyle: const TextStyle(
-                overflow: TextOverflow.ellipsis,
-              )),
-        ),
-        if (widget.showHelpPassword)
-          Padding(
-            padding: EdgeInsets.only(left: size.width * 0.25),
-            child: TextButton(
-              child: const Text(
-                '¿Has olvidado tu contraseña?',
-                style: TextStyle(
-                    color: ColorsViews.bar_enabled,
-                    fontWeight: FontWeight.bold),
-              ),
-              onPressed: () => Navigator.pushNamed(context, 'recover_password'),
-            ),
-          )
-      ],
-    );
   }
 }
 

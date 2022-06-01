@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'cards_view.dart';
 import 'carrousel_circle_img_view.dart';
@@ -13,6 +14,7 @@ class PrincipalPage extends StatefulWidget {
 
 class _PrincipalPageState extends State<PrincipalPage> {
   int _selectedIndex = 1;
+  String name = "";
   final List<bool> _isOpen = [false, false];
 
   static const TextStyle optionStyle =
@@ -36,6 +38,18 @@ class _PrincipalPageState extends State<PrincipalPage> {
   }
 
   @override
+  void initState() {
+    getData();
+  }
+
+  getData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      name = prefs.getString('name')!;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -51,12 +65,15 @@ class _PrincipalPageState extends State<PrincipalPage> {
             Padding(
               padding: EdgeInsets.symmetric(vertical: 50),
               child: Column(
-                children: const [
-                  CircleAvatar(
+                children: [
+                  const CircleAvatar(
                     child: Text("Imagen"),
                     radius: 40,
                   ),
-                  Text("Nombre"),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text(name),
                 ],
               ),
             ),

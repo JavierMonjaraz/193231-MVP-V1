@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:mvp_all/Conection/server.dart';
 import 'package:mvp_all/styles/colors/colors_views.dart';
 import 'package:http/http.dart';
 
@@ -233,7 +234,7 @@ class _RegisterPage extends State<RegistrerPage> {
                     if(politicasIsChecked){
                       if(!(nombre.text == '') && !(email.text =='') && !(password.text =='')){
                         Response response = await post(
-                            Uri.parse('http://192.168.1.65:3000/api/v1/register'),
+                            Uri.parse(connect.url+'api/v1/register'),
                             body: {
                               'name': nombre.text,
                               'email': email.text,
