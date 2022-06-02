@@ -49,36 +49,62 @@ class _Card extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: size.width * 0.5,
-      padding: const EdgeInsets.all(8),
-      child: Card(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Container(
-                height: 200,
-                // padding: const EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                    fit: BoxFit.cover,
-                    alignment: FractionalOffset.center,
-                    image: NetworkImage(
-                      urlImg,
+    return GestureDetector(
+      onTap: (){
+        showDialog(
+            context: context,
+            builder: (context) {
+              return SimpleDialog(
+                children: [
+                  Container(
+                    height: 300,
+                    // padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        alignment: FractionalOffset.center,
+                        image: NetworkImage(
+                          urlImg,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              );
+            });
+      } ,
+      child: Container(
+        width: size.width * 0.5,
+        padding: const EdgeInsets.all(8),
+        child: Card(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: Container(
+                  height: 200,
+                  // padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      alignment: FractionalOffset.center,
+                      image: NetworkImage(
+                        urlImg,
+                      ),
                     ),
                   ),
                 ),
               ),
-            ),
-            Text(
-              info,
-              maxLines: 5,
-              overflow: TextOverflow.ellipsis,
-              textAlign: TextAlign.center,
-            ),
-          ],
+              Text(
+                info,
+                maxLines: 5,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
         ),
       ),
     );

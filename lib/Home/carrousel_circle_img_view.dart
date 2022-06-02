@@ -16,11 +16,11 @@ class CarrouselCircleImg extends StatelessWidget {
       // color: Colors.blueGrey,
       child: Container(
         // color: Colors.black,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black,
-          ),
-        ),
+        // decoration: BoxDecoration(
+        //   border: Border.all(
+        //     color: Colors.black,
+        //   ),
+        // ),
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
         child: ListView.builder(
           itemBuilder: ((context, index) {
