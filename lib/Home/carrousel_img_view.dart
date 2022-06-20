@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+// import 'package:mvp_all/Conection/services.dart';
 import '../styles/colors/colors_views.dart';
 
 class CarrouselImage extends StatefulWidget {
@@ -24,7 +25,6 @@ class _CarrouselImageState extends State<CarrouselImage> {
     "https://housepet.es/blog/wp-content/uploads/2021/07/consulsiones-en-perros.jpg",
     "https://estaticos-cdn.prensaiberica.es/clip/76091432-8b3a-482b-8209-cb4c51e54b0c_16-9-discover-aspect-ratio_default_0.jpg",
     "https://s1.eestatic.com/2021/06/24/curiosidades/mascotas/591454065_193121170_1706x960.jpg"
-
   ];
 
   final PageController controller = PageController(initialPage: 0);
@@ -45,7 +45,7 @@ class _CarrouselImageState extends State<CarrouselImage> {
     _changeImage(images.length);
     return SizedBox(
       width: widget.size.width,
-      height: widget.size.height * 0.4,
+      height: widget.size.height * 0.25,
       // color: Colors.red,
       child: Column(
         // mainAxisSize: MainAxisSize.max,
@@ -79,29 +79,29 @@ class _CarrouselImageState extends State<CarrouselImage> {
               },
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: List.generate(images.length, (index) {
-                return AnimatedContainer(
-                  duration: kThemeAnimationDuration,
-                  height: 7,
-                  width: actual == index ? 20 : 15,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    // color: ColorsViews.activeSliderColor,
-                    color: actual == index
-                        ? ColorsViews.bar_enabled
-                        : ColorsViews.bar_disabled,
-                  ),
-                  margin: const EdgeInsets.symmetric(horizontal: 8),
-                );
-              }),
-            ),
-          )
+          // Expanded(
+          //   flex: 1,
+          //   child: Row(
+          //     mainAxisSize: MainAxisSize.max,
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: List.generate(images.length, (index) {
+          //       return AnimatedContainer(
+          //         duration: kThemeAnimationDuration,
+          //         height: 7,
+          //         width: actual == index ? 20 : 15,
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(10),
+          //           // color: ColorsViews.activeSliderColor,
+          //           color: actual == index
+          //               ? ColorsViews.bar_enabled
+          //               : ColorsViews.bar_disabled,
+          //         ),
+          //         margin: const EdgeInsets.symmetric(horizontal: 8),
+          //       );
+          //     }),
+          //   ),
+          // )
         ],
       ),
     );
